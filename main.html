@@ -41,15 +41,16 @@
             </form>
             <button id="start-round-button">Start round</button>
         </section>
+        <!-- TODO: find a place for the attempt counter -->
         <section id="questions-screen">
-            <h1>Question 1</h1>
+            <h1 id="question-counter">Question 1</h1>
             <!-- TODO: define form's behaviour after sending -->
             <form>
-                <label>What's the 2nd scale degree in A major?</label>
+                <label id="query-text">What's the 2nd scale degree in A major?</label>
                 <input type="text" name="guess-field">
                 <button id="check-guess-button">Check</button>
             </form>
-            <p>Completely wrong. The answer was B</p>
+            <p id="result-text">Completely wrong. The answer was B</p>
             <button id="stop-round-button">Stop</button>
         </section>
         <section id="statistic-screen">
