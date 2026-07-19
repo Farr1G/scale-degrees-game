@@ -23,6 +23,7 @@ body {
     padding: 6rem 8rem;
 }
 
+/* TODO: Style buttons properly (not urgent) */
 button {
     font-family: var(--main-font);
     font-weight: 600;
@@ -32,8 +33,11 @@ button {
     background-color: var(--light-bg-color);
     border-color: var(--border-color);
 
-    margin-top: 2rem;
     padding: 0.4rem;
+}
+
+section > button {
+    margin-top: 2rem;
 }
 
 h1 {
@@ -82,4 +86,12 @@ input[type="radio"] {
     accent-color: var(--accent-color);
     width: 1rem;
     height: 1rem;
+}
+
+section {
+    margin-top: 12rem;
+}
+
+section:first-of-type {
+    margin-top: 0;
 }
