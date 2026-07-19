@@ -9,12 +9,15 @@ The project uses [this naming conventions](https://github.com/ktaranov/naming-co
 In CSS properties should follow this order:
 
 1. Text
-2. Color
-3. Position
-4. Margin
-5. Border
-6. Padding
-7. Flex/Grid
+2. Filters
+3. Color
+4. Size
+5. Position
+6. Margin
+7. Border
+8. Padding
+9. Flex/Grid
+10. Animations
 
 ## Features
 - A website as an iterface
