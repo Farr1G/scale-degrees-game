@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --main-font: "Geist", sans-serif;
+
+    --text-color: hsl(0, 0%, 20%);
+    --bg-color: hsl(0, 0%, 92%);
+    --light-bg-color: hsl(0, 0%, 96%);
+    --border-color: hsl(0, 0%, 90%);
+    --accent-color: hsl(17, 86%, 47%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--main-font);
+
+    color: var(--text-color);
+    background-color: var(--bg-color);
+
+    padding: 6rem 8rem;
+}
+
+button {
+    font-family: var(--main-font);
+    font-weight: 600;
+    font-size: 1.1rem;
+
+    color: var(--text-color);
+    background-color: var(--light-bg-color);
+    border-color: var(--border-color);
+
+    margin-top: 2rem;
+    padding: 0.4rem;
+}
+
+h1 {
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+legend {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+fieldset {
+    font-size: 1.2rem;
+
+    background-color: var(--light-bg-color);
+    border-color: var(--border-color);
+
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.radio {
+    width: fit-content;
+    margin-top: 0.4rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.radio > label {
+    padding-left: 0.4rem;
+}
+
+fieldset > div:first-of-type {
+    margin-top: 0;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--accent-color);
+    width: 1rem;
+    height: 1rem;
+}
