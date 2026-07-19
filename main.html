@@ -42,12 +42,20 @@
             <button id="start-round-button">Start round</button>
         </div>
         <div id="questions-screen">
-            
+            <h1>Question 1</h1>
+            <!-- TODO: define form's behaviour after sending -->
+            <form>
+                <label>What's the 2nd scale degree in A major?</label>
+                <input type="text" name="guess-field">
+                <button id="check-guess-button">Check</button>
+            </form>
+            <p>Completely wrong. The answer was B</p>
+            <button id="stop-round-button">Stop</button>
         </div>
         <div id="statistic-screen">
             <h1>Statistic</h1>
-            <p>Rounds: </p>
-            <p>Accuracy: </p>
+            <p>Rounds: 20</p>
+            <p>Accuracy: 64%</p>
             <button id="another-round-button">Take another round</button>
         </div>
         <script src="script.js"></script>
