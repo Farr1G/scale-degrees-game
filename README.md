@@ -21,8 +21,13 @@ In CSS properties should follow this order:
 
 ## Features
 - A website as an iterface
-- Export option of a round history in `.csv` format
 - Statistic after the end of round
+- Stopwatch and attempts counter
+
+Some features are delayed for post-MVP stage:
+
+- Export option of a round history in `.csv` format
+- Virtual keyboard for answering (substituted with `<input type="text">`)
 
 ## Game flow
 1. An user opens the site
