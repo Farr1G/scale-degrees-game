@@ -6,6 +6,16 @@ A game written in JavaScript there one guesses notes based on their position in 
 ## Naming conventions
 The project uses [this naming conventions](https://github.com/ktaranov/naming-convention/blob/master/JavaScript%20Name%20and%20Coding%20Conventions.md), unless otherwise stated.
 
+In CSS properties should follow this order:
+
+1. Text
+2. Color
+3. Position
+4. Margin
+5. Border
+6. Padding
+7. Flex/Grid
+
 ## Features
 - A website as an iterface
 - Export option of a round history in `.csv` format
