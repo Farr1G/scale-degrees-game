@@ -1,14 +1,14 @@
-let configurationScreen = document.getElementById("configuration-screen");
-let questionsScreen = document.getElementById("questions-screen");
-let statisticScreen = document.getElementById("statistic-screen");
+const ConfigurationScreen = document.getElementById("configuration-screen");
+const QuestionsScreen = document.getElementById("questions-screen");
+const StatisticScreen = document.getElementById("statistic-screen");
 
-let scaleButtons = document.getElementById("scale-fieldset").querySelectorAll('input[type="radio"]');
-let gameModeButtons = document.getElementById("game-mode-fieldset").querySelectorAll('input[type="radio"]');
+const ScaleButtons = document.getElementById("scale-fieldset").querySelectorAll('input[type="radio"]');
+const GameModeButtons = document.getElementById("game-mode-fieldset").querySelectorAll('input[type="radio"]');
 
-let startRoundButton = document.getElementById("start-round-button");
-let checkGuessButton = document.getElementById("check-guess-button");
-let stopRoundButton = document.getElementById("stop-round-button");
-let anotherRoundButton = document.getElementById("another-round-button");
+const StartRoundButton = document.getElementById("start-round-button");
+const CheckGuessButton = document.getElementById("check-guess-button");
+const StopRoundButton = document.getElementById("stop-round-button");
+const AnotherRoundButton = document.getElementById("another-round-button");
 
 let gameConfiguration = {};
 let gameState = {};
@@ -38,40 +38,46 @@ function generateQuestion() {
     gameState["scaleDegree"] = Math.floor(Math.random() * 7);
     gameState["rootNoteIndex"] = Math.floor(Math.random() * Notes.length);
     gameState["answerNote"] = Notes[gameState["rootNoteIndex"] + gameState["scaleDegree"]];
+};
 
-    // Display
+function displayQuestion() {
+
 };
 
 function generateRoundStatistic() {
     
 };
 
-startRoundButton.addEventListener("click", function() {
-    gameConfiguration["scale"] = getValueFromRadioButtons(scaleButtons);
-    gameConfiguration["gameMode"] = getValueFromRadioButtons(gameModeButtons);
+function displayRoundStatistic() {
+
+};
+
+StartRoundButton.addEventListener("click", function() {
+    gameConfiguration["scale"] = getValueFromRadioButtons(ScaleButtons);
+    gameConfiguration["gameMode"] = getValueFromRadioButtons(GameModeButtons);
 
     gameState["questionIndex"] = 1;
     gameState["questionsAnswered"] = 0;
     gameState["errorsMade"] = 0;
 
-    configurationScreen.hidden = true;
-    questionsScreen.hidden = false;
+    ConfigurationScreen.hidden = true;
+    QuestionsScreen.hidden = false;
 
     generateQuestion();
 });
 
-checkGuessButton.addEventListener("click", function() {
+CheckGuessButton.addEventListener("click", function() {
 
 });
 
-stopRoundButton.addEventListener("click", function() {
+StopRoundButton.addEventListener("click", function() {
     isStopButtonPressed = true;
 });
 
-anotherRoundButton.addEventListener("click", function() {
+AnotherRoundButton.addEventListener("click", function() {
     gameConfiguration = {};
     gameState = {};
 
-    statisticScreen.hidden = true;
-    configurationScreen.hidden = false; 
+    StatisticScreen.hidden = true;
+    ConfigurationScreen.hidden = false; 
 })
