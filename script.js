@@ -2,19 +2,22 @@ let configurationScreen = document.getElementById("configuration-screen");
 let questionsScreen = document.getElementById("questions-screen");
 let statisticScreen = document.getElementById("statistic-screen");
 
+let scaleButtons = document.getElementById("scale-fieldset").querySelectorAll('input[type="radio"]');
+let gameModeButtons = document.getElementById("game-mode-fieldset").querySelectorAll('input[type="radio"]');
+
 let startRoundButton = document.getElementById("start-round-button");
+let checkGuessButton = document.getElementById("check-guess-button");
+let stopRoundButton = document.getElementById("stop-round-button");
+let anotherRoundButton = document.getElementById("another-round-button");
 
 let gameConfiguration = {};
 let gameState = {};
+let isStopButtonPressed = false;
 
 const Notes = [
     ["C"], ["C#", "Db"], ["D"], ["D#", "Eb"], ["E"],
     ["F"], ["F#", "Gb"], ["G"], ["G#", "Ab"], ["A"], ["A#", "Bb"], ["B"]
 ];
-
-// Counting from the root note
-const MajorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
-const MinorScaleIntervals = [0, 2, 3, 5, 7, 8, 10];
 
 function getValueFromRadioButtons(radioButtons) {
     // https://code.mu/en/javascript/book/prime/dom/form/radio/#
@@ -25,45 +28,50 @@ function getValueFromRadioButtons(radioButtons) {
 	}
 };
 
-function getLoopCondition() {
-    switch (gameConfiguration["gameMode"]) {
-        case "questions":
-            return function() {
-                return gameState["questionsAnswered"] <= 20;
-            };
-            break;
+function generateQuestion() {
+    // Counting from the root note
+    const ScaleIntervals = {}
+    ScaleIntervals["major"] = [0, 2, 4, 5, 7, 9, 11];
+    ScaleIntervals["minor"] = [0, 2, 3, 5, 7, 8, 10];
 
-        case "errors":
-            return function() {
-                return gameState["errorsMade"] <= 5;
-            };
-            break;
+    // For displaying to user scaleDegree must be incremented
+    gameState["scaleDegree"] = Math.floor(Math.random() * 7);
+    gameState["rootNoteIndex"] = Math.floor(Math.random() * Notes.length);
+    gameState["answerNote"] = Notes[gameState["rootNoteIndex"] + gameState["scaleDegree"]];
 
-        case "tired":
-            return function() {
-                return true;
-            };
-            break;
-    
-        default:
-            console.error("gameMode's value isn't valid", gameConfiguration["gameMode"]);
-            break;
-    }
+    // Display
 };
 
-startRoundButton.addEventListener("click", function () {
-    let scaleButtons = document.getElementById("scale-fieldset").querySelectorAll('input[type="radio"]');
-    gameConfiguration["scale"] = getValueFromRadioButtons(scaleButtons);
+function generateRoundStatistic() {
+    
+};
 
-    let gameModeButtons = document.getElementById("game-mode-fieldset").querySelectorAll('input[type="radio"]');
+startRoundButton.addEventListener("click", function() {
+    gameConfiguration["scale"] = getValueFromRadioButtons(scaleButtons);
     gameConfiguration["gameMode"] = getValueFromRadioButtons(gameModeButtons);
+
+    gameState["questionIndex"] = 1;
+    gameState["questionsAnswered"] = 0;
+    gameState["errorsMade"] = 0;
 
     configurationScreen.hidden = true;
     questionsScreen.hidden = false;
 
-    let checkLoopCondition = getLoopCondition();
-
-    while (checkLoopCondition()) {
-        // ...
-    }
+    generateQuestion();
 });
+
+checkGuessButton.addEventListener("click", function() {
+
+});
+
+stopRoundButton.addEventListener("click", function() {
+    isStopButtonPressed = true;
+});
+
+anotherRoundButton.addEventListener("click", function() {
+    gameConfiguration = {};
+    gameState = {};
+
+    statisticScreen.hidden = true;
+    configurationScreen.hidden = false; 
+})
