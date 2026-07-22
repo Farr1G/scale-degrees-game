@@ -112,6 +112,8 @@ function moveToTheNextQuestion() {
 
         // generateRoundStatistic();
         displayRoundStatistic();
+
+        return;
     }
 
     gameState.currentQuestion = {};
@@ -132,7 +134,7 @@ function checkGuessValidity() {
         ResultParagraph.textContent = "Correct";
         ResultParagraph.hidden = false;
 
-        setTimeout(moveToTheNextQuestion(), 1000);
+        setTimeout(moveToTheNextQuestion, 1000);
     } else {
         gameState.currentQuestion.attemptsLeft--;
 
@@ -141,7 +143,8 @@ function checkGuessValidity() {
             ResultParagraph.hidden = false;
             gameState.errorsMade++;
 
-            setTimeout(moveToTheNextQuestion(), 1000);
+            setTimeout(moveToTheNextQuestion, 1000);
+            return;
         }
 
         ResultParagraph.textContent = "Wrong answer. Attempts left: " + gameState.currentQuestion.attemptsLeft;
