@@ -11,43 +11,43 @@
                 <legend>Scale</legend>
                 <div class="radio">
                     <input type="radio" value="major" name="scale-radio" checked>
-                    <label for="major-scales-radio">Major</label>
+                    <label>Major</label>
                 </div>
                 <div class="radio">
                     <input type="radio" value="minor" name="scale-radio">
-                    <label for="minor-scales-radio">Minor</label>
+                    <label>Minor</label>
                 </div>
                 <div class="radio">
                     <input type="radio" value="mixed" name="scale-radio">
-                    <label for="mixed-scales-radio">Mixed</label>
+                    <label>Mixed</label>
                 </div>
             </fieldset>
             <fieldset id="game-mode-fieldset">
                 <legend>Game mode</legend>
                 <div class="radio">
                     <input type="radio" value="questions" name="game-mode-radio" checked>
-                    <label for="20q-game-mode-radio">Until 20 questions</label>
+                    <label>Until 20 questions</label>
                 </div>
                 <div class="radio">
                     <input type="radio" value="errors" name="game-mode-radio">
-                    <label for="5err-game-mode-radio">Until 5 errors</label>
+                    <label>Until 5 errors</label>
                 </div>
                 <div class="radio">
                     <input type="radio" value="tired" name="game-mode-radio">
-                    <label for="tired-game-mode-radio">Until I'm tired</label>
+                    <label>Until I'm tired</label>
                 </div>
             </fieldset>
             <button id="start-round-button">Start round</button>
         </section>
         <!-- TODO: find a place for the attempt counter -->
         <section id="questions-screen" hidden>
-            <h1 id="question-counter">Question <span id="question-index-span">1</span></h1>
+            <h1>Question <span id="question-index-span">1</span></h1>
             <div>
-                <p id="query-text">What's the <span id="scale-degree-span">2</span> scale degree in <span id="root-note-span">A</span> <span id="scale-span">major</span>?</p>
-                <input type="text" id="guess-field">
+                <p>What's the <span id="scale-degree-span">2</span> scale degree in <span id="root-note-span">A</span> <span id="scale-span">major</span>?</p>
+                <input type="text" id="guess-field" autocomplete="off">
                 <button id="check-guess-button">Check</button>
             </div>
-            <p id="result-text" hidden>Completely wrong. The answer was B</p>
+            <p id="result-paragraph" hidden>Completely wrong. The answer was B</p>
             <button id="stop-round-button">Stop</button>
         </section>
         <section id="statistic-screen" hidden>
