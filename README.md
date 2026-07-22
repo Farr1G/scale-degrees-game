@@ -28,6 +28,7 @@ Some features are delayed for post-MVP stage:
 
 - Export option of a round history in `.csv` format
 - Virtual keyboard for answering (substituted with `<input type="text">`)
+- Encouraging messages to user's responses
 
 ## Game flow
 1. An user opens the site
