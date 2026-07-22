@@ -11,9 +11,12 @@ const CheckGuessButton = document.getElementById("check-guess-button");
 const StopRoundButton = document.getElementById("stop-round-button");
 const AnotherRoundButton = document.getElementById("another-round-button");
 
+const ResultParagraph = document.getElementById("result-paragraph");
+
 let gameConfiguration = {};
 let gameState = {};
 let isStopButtonPressed = false;
+let isProcessingAnswer = false;
 
 const Notes = [
     ["C"], ["C#", "Db"], ["D"], ["D#", "Eb"], ["E"],
@@ -29,6 +32,16 @@ function getValueFromRadioButtons(radioButtons) {
 	}
 };
 
+function checkElementPressenceInArray(givenElement, array) {
+    for (const arrayElement of array) {
+        if (arrayElement === givenElement) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 function getScaleDegreeInterval() {
     // Counting from the root note
     const MajorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
@@ -38,22 +51,22 @@ function getScaleDegreeInterval() {
     // Only works if all scales have the same length
     switch (gameConfiguration["scale"]) {
         case "major":
-            gameState["currentScale"] = "major";
-            return MajorScaleIntervals[gameState["scaleDegree"]];
+            gameState.currentQuestion.scale = "major";
+            return MajorScaleIntervals[gameState.currentQuestion.scaleDegree];
             break;
 
         case "minor":
-            gameState["currentScale"] = "minor";
-            return MinorScaleIntervals[gameState["scaleDegree"]];
+            gameState.currentQuestion.scale = "minor";
+            return MinorScaleIntervals[gameState.currentQuestion.scaleDegree];
             break;
 
         case "mixed":
             if (Math.random() >= 0.5) {
-                gameState["currentScale"] = "major";
-                return MajorScaleIntervals[gameState["scaleDegree"]];
+                gameState.currentQuestion.scale = "major";
+                return MajorScaleIntervals[gameState.currentQuestion.scaleDegree];
             } else {
-                gameState["currentScale"] = "minor";
-                return MinorScaleIntervals[gameState["scaleDegree"]];
+                gameState.currentQuestion.scale = "minor";
+                return MinorScaleIntervals[gameState.currentQuestion.scaleDegree];
             }
             break;
     
@@ -64,11 +77,11 @@ function getScaleDegreeInterval() {
 };
 
 function generateQuestion() {
-    // For displaying to user scaleDegree must be incremented
-    gameState["scaleDegree"] = Math.floor(Math.random() * 7);
-    gameState["rootNoteIndex"] = Math.floor(Math.random() * Notes.length);
-    gameState["answerNoteIndex"] = (gameState["rootNoteIndex"] + getScaleDegreeInterval()) % 12;
-    ++gameState["questionIndex"];
+    // For displaying to user scaleDegree must be increased by 1
+    gameState.currentQuestion.scaleDegree = Math.floor(Math.random() * 7);
+    gameState.currentQuestion.rootNoteIndex = Math.floor(Math.random() * Notes.length);
+    gameState.currentQuestion.answerNoteIndex = (gameState.currentQuestion.rootNoteIndex + getScaleDegreeInterval()) % 12;
+    gameState.currentQuestion.attemptsLeft = gameConfiguration.maxAttempts;
 };
 
 function displayQuestion() {
@@ -77,14 +90,66 @@ function displayQuestion() {
     const RootNoteSpan = document.getElementById("root-note-span");
     const ScaleSpan = document.getElementById("scale-span");
 
-    QuestionIndexSpan.textContent = gameState["questionIndex"];
-    ScaleDegreeSpan.textContent = ++gameState["scaleDegree"];
-    RootNoteSpan.textContent = Notes[gameState["rootNoteIndex"]][0];
-    ScaleSpan.textContent = gameState["currentScale"];
+    QuestionIndexSpan.textContent = gameState.questionsAnswered + 1;
+    ScaleDegreeSpan.textContent = gameState.currentQuestion.scaleDegree + 1;
+    RootNoteSpan.textContent = Notes[gameState.currentQuestion.rootNoteIndex][0];
+    ScaleSpan.textContent = gameState.currentQuestion.scale;
+
+    ResultParagraph.hidden = true;
+    GuessField.value = "";
+};
+
+function moveToTheNextQuestion() {
+    gameState.questionsAnswered++;
+
+    if (
+        isStopButtonPressed
+        || (gameConfiguration.gameMode === "errors" && gameState.errorsMade >= 5)
+        || (gameConfiguration.gameMode === "questions" && gameState.questionsAnswered >= 20)
+    ) {
+        QuestionsScreen.hidden = true;
+        StatisticScreen.hidden = false;
+
+        // generateRoundStatistic();
+        displayRoundStatistic();
+    }
+
+    gameState.currentQuestion = {};
+
+    generateQuestion();
+    displayQuestion();
+
+    isProcessingAnswer = false;
 };
 
 function checkGuessValidity() {
-    
+    if (isProcessingAnswer) { return; }
+    isProcessingAnswer = true;
+
+    const UserAnswer = GuessField.value;
+
+    if (checkElementPressenceInArray(UserAnswer, Notes[gameState.currentQuestion.answerNoteIndex])) {
+        ResultParagraph.textContent = "Correct";
+        ResultParagraph.hidden = false;
+
+        setTimeout(moveToTheNextQuestion(), 1000);
+    } else {
+        gameState.currentQuestion.attemptsLeft--;
+
+        if (gameState.currentQuestion.attemptsLeft <= 0 || gameConfiguration["maxAttempts"] === 1) {
+            ResultParagraph.textContent = "That's completely wrong. The answer was" + Notes[gameState.currentQuestion.answerNoteIndex][0];
+            ResultParagraph.hidden = false;
+            gameState.errorsMade++;
+
+            setTimeout(moveToTheNextQuestion(), 1000);
+        }
+
+        ResultParagraph.textContent = "Wrong answer. Attempts left: " + gameState.currentQuestion.attemptsLeft;
+        ResultParagraph.hidden = false;
+        GuessField.value = "";
+
+        isProcessingAnswer = false;
+    }
 };
 
 function generateRoundStatistic() {
@@ -95,6 +160,8 @@ function displayRoundStatistic() {
     const RoundAmountSpan = document.getElementById("rounds-amount-span");
     const AccuracySpan = document.getElementById("accuracy-span");
 
+    console.log(gameState);    
+
     RoundAmountSpan.textContent = gameState["questionsAnswered"];
     AccuracySpan.textContent = (gameState["questionsAnswered"] != 0) ? Math.floor(100 * (1 - gameState["errorsMade"] / gameState["questionsAnswered"])) : 0;
 };
@@ -102,11 +169,11 @@ function displayRoundStatistic() {
 StartRoundButton.addEventListener("click", function() {
     gameConfiguration["scale"] = getValueFromRadioButtons(ScaleButtons);
     gameConfiguration["gameMode"] = getValueFromRadioButtons(GameModeButtons);
+    gameConfiguration["maxAttempts"] = 2;
 
-    // Perhaps, 'questionIndex' and 'questionsAnswered' are duplicates
-    gameState["questionIndex"] = 0;
     gameState["questionsAnswered"] = 0;
     gameState["errorsMade"] = 0;
+    gameState.currentQuestion = {};
 
     ConfigurationScreen.hidden = true;
     QuestionsScreen.hidden = false;
